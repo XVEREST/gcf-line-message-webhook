@@ -23,6 +23,9 @@ jobs:
       
       - name: Deploy to Cloud Run
         run: |
-          echo ${{ github.event.repository.name }}
-          gcloud functions list --region asia-southeast1
-          # gcloud functions deploy
+          gcloud functions deploy ${{ github.event.repository.name }} \
+          --region=asia-southeast1 \
+          --source=. \
+          --entry-point=webhook \
+          --trigger-http \
+          --runtime=python312
