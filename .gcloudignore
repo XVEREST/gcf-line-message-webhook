@@ -1,0 +1,7 @@
+.github/
+README.md
+.git
+.gcloudignore
+__pycache__
+.gitignore
+*.json
