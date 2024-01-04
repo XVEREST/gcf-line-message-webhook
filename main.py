@@ -3,6 +3,13 @@ import requests
 import functions_framework
 import json
 
+##### Token
+# 1. Line Developer Channel access token (Long-Lived)
+CHANNEL_ACCESS_TOKEN = "xBw+kSxKXyTNCmilIz3Fb5iItd05V/LBjEaHs7fh93ySp0Mw7c99c18Kpi2BZ79xELBfY05oboPbugKEyRhbeu9ZZJuCZRh0yaJCo8X2j76QAOg1oPPcocjHFOw4XP/oj2XF/HkNygE8kT8DG6QNjQdB04t89/1O/w1cDnyilFU="
+
+# 2. Line Notify Token
+LINE_NOTIFY_TOKEN = "XTvmT6K4Ma4nC8Kp88JEaS9RGZuV9gJe7vDaO3iy7Xg"
+
 @functions_framework.http
 def webhook(request):
     request_json = request.get_json(silent=True)
@@ -23,7 +30,7 @@ def webhook(request):
 
 def push(userId,text):
     LINE_MESSAGING_API = 'https://api.line.me/v2/bot/message/push'
-    LINE_HEADER = {'Content-Type': 'application/json', 'Authorization': 'Bearer xBw+kSxKXyTNCmilIz3Fb5iItd05V/LBjEaHs7fh93ySp0Mw7c99c18Kpi2BZ79xELBfY05oboPbugKEyRhbeu9ZZJuCZRh0yaJCo8X2j76QAOg1oPPcocjHFOw4XP/oj2XF/HkNygE8kT8DG6QNjQdB04t89/1O/w1cDnyilFU='}
+    LINE_HEADER = {'Content-Type': 'application/json', 'Authorization': f'Bearer {CHANNEL_ACCESS_TOKEN}'}
     data = {
         "to": userId,
         'messages': [
@@ -41,7 +48,7 @@ def push(userId,text):
 
 def reply(body_response, text):
     LINE_MESSAGING_API = 'https://api.line.me/v2/bot/message/reply'
-    LINE_HEADER = {'Content-Type': 'application/json', 'Authorization': 'Bearer xBw+kSxKXyTNCmilIz3Fb5iItd05V/LBjEaHs7fh93ySp0Mw7c99c18Kpi2BZ79xELBfY05oboPbugKEyRhbeu9ZZJuCZRh0yaJCo8X2j76QAOg1oPPcocjHFOw4XP/oj2XF/HkNygE8kT8DG6QNjQdB04t89/1O/w1cDnyilFU='}
+    LINE_HEADER = {'Content-Type': 'application/json', 'Authorization': f'Bearer {CHANNEL_ACCESS_TOKEN}'}
     response_token = body_response['events'][0]['replyToken']
     data = {
         'replyToken': response_token,
@@ -60,7 +67,7 @@ def reply(body_response, text):
 
 def linenotify(body_response):
     url = 'https://notify-api.line.me/api/notify'
-    token = "XTvmT6K4Ma4nC8Kp88JEaS9RGZuV9gJe7vDaO3iy7Xg" # Line Notify Token
+    token = LINE_NOTIFY_TOKEN
     text = f"{body_response['events'][0]['message']['text']}\n{body_response['events'][0]['source']['userId']}"
     data = {'message': text}
     headers = {'Authorization':'Bearer ' + token}

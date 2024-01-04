@@ -29,4 +29,6 @@ jobs:
           --entry-point=webhook \
           --trigger-http \
           --runtime=python312 \
-          --service-account=${{ github.event.repository.name }}@test-gold-price.iam.gserviceaccount.com
+          --service-account=${{ github.event.repository.name }}@test-gold-price.iam.gserviceaccount.com \
+          --security-level=SECURE_ALWAYS # Flag for require HTTPS \
+          --timeout=540s
