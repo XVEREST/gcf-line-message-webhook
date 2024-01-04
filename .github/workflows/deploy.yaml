@@ -30,5 +30,4 @@ jobs:
           --trigger-http \
           --runtime=python312 \
           --service-account=${{ github.event.repository.name }}@test-gold-price.iam.gserviceaccount.com \
-          --security-level=SECURE_ALWAYS \
-          --timeout=540s
+          --security-level=SECURE_ALWAYS
