@@ -1,0 +1,5 @@
+# name: Deploy GCF
+
+# on:
+#   push:
+#     branches: [develop, sit, release]
