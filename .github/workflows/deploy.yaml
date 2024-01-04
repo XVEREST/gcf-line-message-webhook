@@ -1,5 +1,28 @@
-# name: Deploy GCF
+name: Deploy GCF
 
-# on:
-#   push:
-#     branches: [develop, sit, release]
+on:
+  push:
+    branches: [master]
+
+jobs:
+    
+  deploy-gcf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: 'GCP Auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_JSON_KEY }}'
+      
+      - name: Install Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.6.0
+      
+      - name: Deploy to Cloud Run
+        run: |
+          echo ${{ github.event.repository.name }}
+          gcloud functions list --region asia-southeast1
+          # gcloud functions deploy
